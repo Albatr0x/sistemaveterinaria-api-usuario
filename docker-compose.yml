@@ -1,0 +1,23 @@
+services:
+  app-api-usuario:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=${JAVA_OPTS}
+      - SERVER_PORT=${APP_PORT}
+    networks:
+      - sisveterinaria-network
+    restart: on-failure:3
+
+
+networks:
+  sisveterinaria-network:
+    name: sisveterinaria-network
+    driver: bridge
